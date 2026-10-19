@@ -1,3 +1,4 @@
+import { agendaView } from './agenda'
 import { describe, leadView, ringFraction, timerText } from './format'
 import { marqueeKeyframes, marqueePlan } from './marquee'
 import type { DemoState, Scenario } from './model'
@@ -18,6 +19,15 @@ export interface DemoRefs {
   readonly trail: HTMLElement
   readonly trailCopy: HTMLElement
   readonly card: HTMLElement
+  readonly agenda: HTMLElement
+  readonly agendaRows: readonly HTMLElement[]
+  readonly focusRow: HTMLElement
+  readonly focusElapsed: HTMLElement
+  readonly focusTitle: HTMLElement
+  readonly focusProgress: HTMLElement
+  readonly focusNow: HTMLButtonElement
+  readonly openPlanner: HTMLButtonElement
+  readonly rowJoins: readonly HTMLButtonElement[]
   readonly eyebrow: HTMLElement
   readonly hero: HTMLElement
   readonly ring: SVGCircleElement
@@ -54,6 +64,15 @@ export function collectRefs(root: HTMLElement): DemoRefs {
     trail: need(root, '[data-trail]'),
     trailCopy: need(root, '[data-trail-copy]'),
     card: need(root, '[data-card]'),
+    agenda: need(root, '[data-agenda]'),
+    agendaRows: [...root.querySelectorAll<HTMLElement>('[data-agenda-row]')],
+    focusRow: need(root, '[data-focus-row]'),
+    focusElapsed: need(root, '[data-focus-elapsed]'),
+    focusTitle: need(root, '[data-focus-title]'),
+    focusProgress: need(root, '[data-focus-progress]'),
+    focusNow: need(root, '[data-focus-now]'),
+    openPlanner: need(root, '[data-open-planner]'),
+    rowJoins: [...root.querySelectorAll<HTMLButtonElement>('[data-row-join]')],
     eyebrow: need(root, '[data-eyebrow]'),
     hero: need(root, '[data-hero]'),
     ring: need(root, '[data-ring]'),
@@ -93,7 +112,8 @@ function setTrail(refs: DemoRefs, text: string): void {
 export function render(refs: DemoRefs, state: DemoState, context: RenderContext): void {
   const { content } = state
   const lead = leadView(content)
-  const expanded = state.expanded && content.kind === 'meeting'
+  const agenda = agendaView(content)
+  const expanded = state.expanded
   const data = refs.root.dataset
 
   data.mode = context.mode
@@ -101,6 +121,7 @@ export function render(refs: DemoRefs, state: DemoState, context: RenderContext)
   data.lead = lead.kind
   data.tone = lead.tone
   data.expanded = String(expanded)
+  data.cardKind = agenda ? 'agenda' : 'meeting'
   data.cursor = state.cursor
   data.pulsing = String(lead.pulsing)
   data.joinPressed = String(state.joinPressed)
@@ -109,7 +130,20 @@ export function render(refs: DemoRefs, state: DemoState, context: RenderContext)
   setTrail(refs, lead.trail)
   setAttr(refs.toggle, 'aria-label', describe(content))
   setAttr(refs.toggle, 'aria-expanded', String(expanded))
-  refs.card.inert = !expanded
+  refs.card.inert = !(expanded && !agenda)
+  refs.agenda.inert = !(expanded && agenda)
+
+  if (agenda) {
+    refs.agendaRows.forEach((row, index) => { row.hidden = index < agenda.firstRow })
+    refs.focusRow.hidden = agenda.focus === null
+    refs.focusNow.hidden = !agenda.focusNow
+    if (agenda.focus) {
+      setText(refs.focusElapsed, agenda.focus.elapsed)
+      setText(refs.focusTitle, agenda.focus.title)
+      setText(refs.focusProgress, agenda.focus.progress)
+      refs.focusRow.dataset.over = String(agenda.focus.over)
+    }
+  }
 
   if (content.kind === 'meeting') {
     setText(refs.hero, timerText(content.timer))

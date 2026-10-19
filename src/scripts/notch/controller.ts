@@ -60,29 +60,41 @@ export function startDemo(root: HTMLElement): () => void {
           timeLapse: false,
         }
 
-  const draw = (): void => render(refs, state(), { mode: mode.kind, chip: mode.kind === 'hands' ? mode.chip : null })
+  /** Before a card turns inert, move focus out of it to the notch so keyboard users keep their place. */
+  const keepFocus = (next: DemoState): void => {
+    const active = document.activeElement
+    const meetingOpen = next.expanded && next.content.kind === 'meeting'
+    const agendaOpen = next.expanded && next.content.kind !== 'meeting'
+    if ((!meetingOpen && refs.card.contains(active)) || (!agendaOpen && refs.agenda.contains(active))) refs.toggle.focus()
+  }
+
+  const draw = (): void => {
+    const next = state()
+    keepFocus(next)
+    render(refs, next, { mode: mode.kind, chip: mode.kind === 'hands' ? mode.chip : null })
+  }
 
   const hands = (): HandsMode =>
     mode.kind === 'hands'
       ? mode
-      : { kind: 'hands', ...takeOver(state().content), elapsedMs: 0, expanded: false, loopMs: mode.elapsedMs, chip: null }
+      : { kind: 'hands', ...takeOver(state().content), elapsedMs: 0, expanded: state().expanded, loopMs: mode.elapsedMs, chip: null }
 
   const takeControl = (): void => {
     window.clearTimeout(resumeTimer)
     mode = hands()
   }
 
+  // Leaves the resume timer alone: closing after the pointer has left must not cancel the resume.
   const setExpanded = (expanded: boolean): void => {
-    window.clearTimeout(resumeTimer)
     mode = { ...hands(), expanded }
     draw()
   }
 
-  const chooseScenario = (scenario: Scenario): void => {
+  const chooseScenario = (scenario: Scenario, expanded = false): void => {
     window.clearTimeout(resumeTimer)
     const loopMs = mode.kind === 'loop' ? mode.elapsedMs : mode.loopMs
     const chip = scenario === 'skipped' ? null : scenario
-    mode = { kind: 'hands', scenario, startSeconds: DEFAULT_START_SECONDS[scenario], elapsedMs: 0, expanded: false, loopMs, chip }
+    mode = { kind: 'hands', scenario, startSeconds: DEFAULT_START_SECONDS[scenario], elapsedMs: 0, expanded, loopMs, chip }
     draw()
   }
 
@@ -135,6 +147,7 @@ export function startDemo(root: HTMLElement): () => void {
   refs.toggle.addEventListener('click', (event) => {
     // A mouse already opens the card on hover; only keyboard clicks (detail 0) and taps toggle.
     if (event.detail > 0 && canHover.matches) return
+    window.clearTimeout(resumeTimer)
     setExpanded(!hands().expanded)
   }, options)
 
@@ -151,6 +164,12 @@ export function startDemo(root: HTMLElement): () => void {
     if (content.kind === 'meeting') showToast(`Would open ${content.meeting.service}`)
     setExpanded(false)
   }, options)
+
+  refs.focusNow.addEventListener('click', () => chooseScenario('focus', true), options)
+  refs.openPlanner.addEventListener('click', () => showToast('Would open the planner'), options)
+  refs.rowJoins.forEach((button) => button.addEventListener('click', () => {
+    showToast(`Would open ${button.dataset.rowJoin ?? 'the meeting'}`)
+  }, options))
 
   refs.chips.forEach((chip) => chip.addEventListener('click', () => {
     const scenario = chip.dataset.scenario

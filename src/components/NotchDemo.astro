@@ -1,4 +1,5 @@
 ---
+import { AGENDA } from '../scripts/notch/agenda'
 import { describe } from '../scripts/notch/format'
 import { DESIGN_REVIEW, LATER_TODAY } from '../scripts/notch/model'
 import { RING_CIRCUMFERENCE } from '../scripts/notch/render'
@@ -16,6 +17,7 @@ const ring = RING_CIRCUMFERENCE.toFixed(2)
   data-lead="dot"
   data-tone="none"
   data-expanded="false"
+  data-card-kind="agenda"
   data-cursor="hidden"
   data-pulsing="false"
   data-join-pressed="false"
@@ -63,6 +65,31 @@ const ring = RING_CIRCUMFERENCE.toFixed(2)
               <li><span class="later-time">{meeting.start}</span><span class="later-title">{meeting.title}</span><span class="later-svc">{meeting.service}</span></li>
             ))}
           </ul>
+        </div>
+        <div class="agenda" data-agenda inert>
+          <p class="agenda-head"><span class="eyebrow-notch">Today</span></p>
+          <ul class="agenda-rows">
+            {AGENDA.map((meeting) => (
+              <li data-agenda-row>
+                <span class="agenda-time">{meeting.start}</span>
+                <span class="agenda-title">{meeting.title}</span>
+                <span class="agenda-svc">{meeting.service}</span>
+                <button type="button" class="join-mini" data-row-join={meeting.service} aria-label={`Join ${meeting.title}`}>
+                  <svg viewBox="0 0 12 8" aria-hidden="true"><rect y=".5" width="8" height="7" rx="1.5"></rect><path d="M8.5 3 12 1v6L8.5 5z"></path></svg>
+                </button>
+              </li>
+            ))}
+          </ul>
+          <div class="focus-row" data-focus-row hidden>
+            <span class="focus-elapsed" data-focus-elapsed></span>
+            <span class="focus-dot" aria-hidden="true"></span>
+            <span class="focus-title" data-focus-title></span>
+            <span class="focus-progress" data-focus-progress></span>
+          </div>
+          <div class="agenda-foot">
+            <button type="button" class="foot-btn" data-focus-now>Focus now</button>
+            <button type="button" class="foot-btn" data-open-planner>Open planner</button>
+          </div>
         </div>
       </div>
 
@@ -112,7 +139,7 @@ const ring = RING_CIRCUMFERENCE.toFixed(2)
 
   .notch {
     position: absolute; top: 0; left: 50%; z-index: 2; width: 300px; height: 32px; translate: -50% 0;
-    background: var(--notch); border-radius: 0 0 12px 12px; color: var(--cream);
+    background: var(--notch); border-radius: 0 0 12px 12px; color: var(--cream); text-align: left;
     transition: width var(--dur-notch) var(--ease-notch), height var(--dur-notch) var(--ease-notch), border-radius var(--dur-notch) var(--ease-notch);
   }
   .notch::before, .notch::after { content: ''; position: absolute; top: 0; width: 10px; height: 10px; }
@@ -144,11 +171,32 @@ const ring = RING_CIRCUMFERENCE.toFixed(2)
   .trail[data-marquee='true'] .trail-copy { display: inline-block; }
   .trail[data-marquee='true'] { mask-image: linear-gradient(90deg, #000 calc(100% - 20px), transparent calc(100% - 10px)); -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 20px), transparent calc(100% - 10px)); }
 
-  .card {
+  .card, .agenda {
     position: absolute; inset: 32px 0 0; padding: 8px 26px 14px; opacity: 0; pointer-events: none;
     transition: opacity 200ms ease-out 60ms;
   }
-  .demo[data-expanded='true'] .card { opacity: 1; pointer-events: auto; }
+  .demo[data-expanded='true'][data-card-kind='meeting'] .card,
+  .demo[data-expanded='true'][data-card-kind='agenda'] .agenda { opacity: 1; pointer-events: auto; }
+
+  /* The app's AgendaContent: today's meetings, the focus row, Focus now / Open planner. */
+  .agenda { display: flex; flex-direction: column; font-size: 11.5px; }
+  .agenda [hidden] { display: none; }
+  .agenda-rows { list-style: none; padding: 0; margin-top: 8px; display: grid; gap: 3px; }
+  .agenda-rows li { display: flex; align-items: center; gap: 10px; height: 22px; }
+  .agenda-time { width: 40px; color: var(--cream-2); font-variant-numeric: tabular-nums; }
+  .agenda-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .agenda-svc { color: var(--cream-3); }
+  .join-mini { width: 22px; height: 22px; padding: 0; border: 0; border-radius: 50%; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; cursor: pointer; transition: transform var(--dur-hover) ease-out; }
+  .join-mini svg { width: 11px; height: 8px; fill: currentColor; }
+  .join-mini:hover { transform: scale(1.04); }
+  .focus-row { margin-top: 3px; height: 22px; display: flex; align-items: center; gap: 8px; }
+  .focus-elapsed { width: 40px; font-variant-numeric: tabular-nums; }
+  .focus-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; }
+  .focus-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .focus-progress { color: var(--cream-3); font-variant-numeric: tabular-nums; }
+  .focus-row[data-over='true'] .focus-elapsed, .focus-row[data-over='true'] .focus-progress { color: var(--timer-upcoming); }
+  .agenda-foot { margin-top: auto; padding-top: 6px; border-top: 0.5px solid var(--hairline); display: flex; justify-content: flex-end; gap: 8px; }
+  .foot-btn { height: 20px; padding: 0 10px; border: 0; border-radius: 999px; background: var(--surface-control); font-size: 11px; font-weight: 600; cursor: pointer; }
   .card-row { display: flex; align-items: center; gap: 10px; }
   .ring { width: 34px; height: 34px; flex: none; rotate: -90deg; }
   .ring-track, .ring-fill { fill: none; stroke-width: 3.5; }

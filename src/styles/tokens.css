@@ -1,0 +1,23 @@
+/* Dono's notch palette (DonoDesign.swift), scaled up to the page. Dark only. */
+:root {
+  color-scheme: dark;
+  --canvas: rgb(9 9 8);
+  --cream: rgb(242 237 227);
+  --cream-2: rgb(242 237 227 / 0.58);
+  --cream-3: rgb(242 237 227 / 0.36);
+  --surface-quiet: rgb(242 237 227 / 0.05);
+  --surface-control: rgb(242 237 227 / 0.085);
+  --hairline: rgb(242 237 227 / 0.08);
+  --accent: rgb(232 133 97);
+  --on-accent: rgb(0 0 0 / 0.86);
+  --timer-upcoming: rgb(250 158 56);
+  --timer-imminent: rgb(245 84 77);
+  --timer-started: rgb(89 204 120);
+  --notch: #000;
+  --ease-notch: cubic-bezier(0.2, 0.9, 0.3, 1);
+  --dur-notch: 320ms;
+  --dur-hover: 150ms;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --gutter: clamp(16px, 5vw, 48px);
+  --column: 72rem;
+}

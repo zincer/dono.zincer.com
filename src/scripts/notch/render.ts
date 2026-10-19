@@ -1,4 +1,5 @@
 import { describe, leadView, ringFraction, timerText } from './format'
+import { marqueeKeyframes, marqueePlan } from './marquee'
 import type { DemoState, Scenario } from './model'
 import { STEPS } from './timeline'
 
@@ -13,7 +14,9 @@ export interface DemoRefs {
   readonly toggle: HTMLButtonElement
   readonly leadText: HTMLElement
   readonly trailWing: HTMLElement
+  readonly trailTrack: HTMLElement
   readonly trail: HTMLElement
+  readonly trailCopy: HTMLElement
   readonly card: HTMLElement
   readonly eyebrow: HTMLElement
   readonly hero: HTMLElement
@@ -47,7 +50,9 @@ export function collectRefs(root: HTMLElement): DemoRefs {
     toggle: need(root, '[data-toggle]'),
     leadText: need(root, '[data-lead-text]'),
     trailWing: need(root, '[data-trail-wing]'),
+    trailTrack: need(root, '[data-trail-track]'),
     trail: need(root, '[data-trail]'),
+    trailCopy: need(root, '[data-trail-copy]'),
     card: need(root, '[data-card]'),
     eyebrow: need(root, '[data-eyebrow]'),
     hero: need(root, '[data-hero]'),
@@ -69,14 +74,20 @@ const setAttr = (element: Element, name: string, value: string): void => {
   if (element.getAttribute(name) !== value) element.setAttribute(name, value)
 }
 
-/** Scrolls a long title like the app's MarqueeText, measured only when the title changes. */
+/**
+ * Scrolls a long title like the app's MarqueeText: rest at the start, slide left one pass onto a
+ * second copy, repeat. Measured only when the title changes; still under Reduce Motion.
+ */
 function setTrail(refs: DemoRefs, text: string): void {
   if (refs.trail.textContent === text && refs.trailWing.dataset.marquee !== undefined) return
   refs.trail.textContent = text
-  const room = refs.trailWing.clientWidth - 10
-  const overflow = refs.trail.scrollWidth - room
-  refs.trailWing.dataset.marquee = String(overflow > 0)
-  refs.trailWing.style.setProperty('--marquee-distance', `${Math.max(0, overflow)}px`)
+  refs.trailCopy.textContent = text
+  refs.trailTrack.getAnimations().forEach((animation) => animation.cancel())
+  const plan = marqueePlan(refs.trail.offsetWidth, refs.trailWing.clientWidth - 10)
+  refs.trailWing.dataset.marquee = String(plan !== null)
+  if (plan && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    refs.trailTrack.animate(marqueeKeyframes(plan), { duration: plan.durationMs, iterations: Infinity, easing: 'linear' })
+  }
 }
 
 export function render(refs: DemoRefs, state: DemoState, context: RenderContext): void {

@@ -24,7 +24,7 @@ The notch demo's colours and timings come from the app (`DonoDesign.swift`, `Not
 
 ## Deploy (one-time setup by the owner)
 
-1. The repo is `zincer/dono.zincer.com`: `git remote add origin git@github.com:zincer/dono.zincer.com.git && git push -u origin main`.
+1. The repo is `zincer/dono.zincer.com`: remote `git@github.com-ntnthien:zincer/dono.zincer.com.git` (the ntnthien SSH alias; the default github.com key has no access).
 2. Settings → Pages → Build and deployment → Source: **GitHub Actions**. Custom domain: `dono.zincer.com`.
 3. DNS for zincer.com: add `CNAME dono → zincer.github.io`.
 4. When the certificate is issued, tick **Enforce HTTPS**.

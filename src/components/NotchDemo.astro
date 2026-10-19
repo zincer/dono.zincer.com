@@ -210,3 +210,10 @@ const ring = RING_CIRCUMFERENCE.toFixed(2)
     .demo[data-pulsing='true'] .ring, .trail[data-marquee='true'] .trail-text { animation: none; }
   }
 </style>
+
+<script>
+  import { startDemo } from '../scripts/notch/controller'
+
+  const root = document.querySelector<HTMLElement>('[data-demo]')
+  if (root) startDemo(root)
+</script>

@@ -1,0 +1,212 @@
+---
+import { describe } from '../scripts/notch/format'
+import { DESIGN_REVIEW, LATER_TODAY } from '../scripts/notch/model'
+import { RING_CIRCUMFERENCE } from '../scripts/notch/render'
+import { CHIP_SCENARIOS, stateAt, STEPS } from '../scripts/notch/timeline'
+
+const initial = stateAt(0)
+const ring = RING_CIRCUMFERENCE.toFixed(2)
+---
+
+<div
+  class="demo"
+  data-demo
+  data-mode="loop"
+  data-step={initial.step}
+  data-lead="dot"
+  data-tone="none"
+  data-expanded="false"
+  data-cursor="hidden"
+  data-pulsing="false"
+  data-join-pressed="false"
+>
+  <div class="frame" data-frame>
+    <div class="screen" data-screen>
+      <div class="menubar" aria-hidden="true">
+        <span class="menu-left"><b>Dono</b><span>File</span><span>Edit</span><span>View</span></span>
+        <span class="menu-right"><i></i><i></i><i></i></span>
+      </div>
+
+      <div class="notch" data-notch>
+        <button class="toggle" type="button" data-toggle aria-expanded="false" aria-label={describe(initial.content)}>
+          <span class="compact" aria-hidden="true">
+            <span class="wing lead">
+              <span class="dot"></span>
+              <svg class="glyph" viewBox="0 0 8 8"><path d="M1 .5 7.5 4 1 7.5z"></path></svg>
+              <span class="lead-text" data-lead-text>{DESIGN_REVIEW.start}</span>
+            </span>
+            <span class="cutout"></span>
+            <span class="wing trail" data-trail-wing><span class="trail-text" data-trail>{DESIGN_REVIEW.title}</span></span>
+          </span>
+        </button>
+
+        <div class="card" data-card inert>
+          <div class="card-row">
+            <svg class="ring" viewBox="0 0 34 34" aria-hidden="true">
+              <circle class="ring-track" cx="17" cy="17" r="15.25"></circle>
+              <circle class="ring-fill" data-ring cx="17" cy="17" r="15.25" stroke-dasharray={ring} stroke-dashoffset={ring}></circle>
+            </svg>
+            <span class="hero-block">
+              <span class="eyebrow-notch" data-eyebrow>Starts in</span>
+              <span class="hero" data-hero>-05:00</span>
+            </span>
+            <button type="button" class="skip" data-skip>Skip</button>
+            <button type="button" class="join" data-join>Join</button>
+          </div>
+          <p class="card-title">{DESIGN_REVIEW.title}</p>
+          <p class="meta">
+            <span class="provider" aria-hidden="true">Z</span>
+            {DESIGN_REVIEW.start} – {DESIGN_REVIEW.end} · {DESIGN_REVIEW.service} · {DESIGN_REVIEW.calendar}
+          </p>
+          <ul class="later">
+            {LATER_TODAY.map((meeting) => (
+              <li><span class="later-time">{meeting.start}</span><span class="later-title">{meeting.title}</span><span class="later-svc">{meeting.service}</span></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <svg class="ghost" data-ghost viewBox="0 0 16 22" aria-hidden="true"><path d="M1 1v17l4.5-4.2 3 6.7 2.8-1.2-3-6.6H14z"></path></svg>
+      <p class="toast" data-toast role="status"></p>
+    </div>
+  </div>
+
+  <div class="below">
+    <p class="caption">
+      <span data-caption>{STEPS[0]?.caption}</span>
+      <span class="timelapse" data-timelapse hidden>time-lapse</span>
+    </p>
+    <p class="hint"><span class="hint-hover">Hover the notch to try it yourself.</span><span class="hint-touch">Tap the notch to try it yourself.</span></p>
+    <div class="dots" role="group" aria-label="Demo steps">
+      {STEPS.map((step, index) => (
+        <button type="button" class="dot-btn" data-dot={step.id} aria-label={`Step ${index + 1}: ${step.label}`} aria-current={index === 0 ? 'step' : undefined}></button>
+      ))}
+    </div>
+    <div class="chips" role="group" aria-label="Try a scenario">
+      {CHIP_SCENARIOS.map((scenario) => (
+        <button type="button" class="chip" data-scenario={scenario.id} aria-pressed="false">{scenario.label}</button>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .demo { width: 100%; }
+  .frame {
+    position: relative; width: 100%; max-width: 720px; aspect-ratio: 720 / 300; margin-inline: auto;
+    overflow: hidden; border-radius: 16px; box-shadow: 0 30px 80px rgb(0 0 0 / 0.5), inset 0 0 0 1px var(--hairline);
+  }
+  .screen {
+    position: absolute; top: 0; left: 50%; width: 720px; height: 300px;
+    transform: translateX(-50%) scale(var(--scale, 1)); transform-origin: top center;
+    background: radial-gradient(120% 90% at 50% 0%, #3b3550, #14131a 70%);
+  }
+  .menubar {
+    position: absolute; inset: 0 0 auto; height: 32px; display: flex; justify-content: space-between; align-items: center;
+    padding-inline: 14px; background: rgb(0 0 0 / 0.28); color: var(--cream-2); font-size: 12.5px;
+  }
+  .menu-left { display: flex; gap: 16px; }
+  .menu-left b { color: var(--cream); font-weight: 600; }
+  .menu-right { display: flex; gap: 10px; }
+  .menu-right i { width: 14px; height: 9px; border-radius: 3px; background: var(--cream-3); }
+
+  .notch {
+    position: absolute; top: 0; left: 50%; z-index: 2; width: 300px; height: 32px; translate: -50% 0;
+    background: var(--notch); border-radius: 0 0 12px 12px; color: var(--cream);
+    transition: width var(--dur-notch) var(--ease-notch), height var(--dur-notch) var(--ease-notch), border-radius var(--dur-notch) var(--ease-notch);
+  }
+  .notch::before, .notch::after { content: ''; position: absolute; top: 0; width: 10px; height: 10px; }
+  .notch::before { left: -10px; background: radial-gradient(circle at 0 100%, transparent 10px, var(--notch) 10.5px); }
+  .notch::after { right: -10px; background: radial-gradient(circle at 100% 100%, transparent 10px, var(--notch) 10.5px); }
+  .demo[data-expanded='true'] .notch { width: 430px; height: 222px; border-radius: 0 0 26px 26px; }
+
+  .toggle { position: absolute; inset: 0 0 auto; height: 32px; width: 100%; padding: 0; border: 0; background: none; cursor: default; border-radius: 0 0 12px 12px; }
+  .toggle:focus-visible { outline-offset: -2px; }
+  .compact { display: flex; height: 32px; align-items: center; font-size: 12.5px; font-weight: 500; line-height: 1; transition: opacity 200ms ease-out; }
+  .demo[data-expanded='true'] .compact { opacity: 0; }
+  .wing { width: 60px; display: flex; align-items: center; overflow: hidden; white-space: nowrap; color: var(--cream-2); }
+  .cutout { flex: 1; }
+  .lead { gap: 4px; padding-left: 6px; }
+  .demo[data-lead='timer'] .lead { padding-left: 12px; }
+  .dot { display: none; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none; }
+  .glyph { display: none; width: 7px; height: 7px; fill: currentColor; flex: none; }
+  .demo[data-lead='dot'] .dot, .demo[data-lead='focus'] .glyph { display: block; }
+  .demo:not([data-lead='dot']) .lead-text { font-variant-numeric: tabular-nums; }
+  .demo[data-tone='upcoming'] .lead, .demo[data-tone='upcoming'] .hero, .demo[data-tone='over'] .lead { color: var(--timer-upcoming); }
+  .demo[data-tone='imminent'] .lead, .demo[data-tone='imminent'] .hero { color: var(--timer-imminent); }
+  .demo[data-tone='started'] .lead, .demo[data-tone='started'] .hero { color: var(--timer-started); }
+  .trail { justify-content: flex-start; padding-right: 10px; }
+  .trail[data-marquee='false'] { justify-content: flex-end; }
+  .trail-text { display: inline-block; }
+  @keyframes marquee { 0%, 20% { transform: translateX(0); } 80%, 100% { transform: translateX(calc(-1 * var(--marquee-distance))); } }
+  .trail[data-marquee='true'] .trail-text { animation: marquee 8s linear infinite alternate; }
+
+  .card {
+    position: absolute; inset: 32px 0 0; padding: 8px 26px 14px; opacity: 0; pointer-events: none;
+    transition: opacity 200ms ease-out 60ms;
+  }
+  .demo[data-expanded='true'] .card { opacity: 1; pointer-events: auto; }
+  .card-row { display: flex; align-items: center; gap: 10px; }
+  .ring { width: 34px; height: 34px; flex: none; rotate: -90deg; }
+  .ring-track, .ring-fill { fill: none; stroke-width: 3.5; }
+  .ring-track { stroke: var(--surface-control); }
+  .ring-fill { stroke: var(--accent); stroke-linecap: round; transition: stroke-dashoffset 300ms ease-in-out; }
+  @keyframes pulse { from { opacity: 1; } to { opacity: 0.45; } }
+  .demo[data-pulsing='true'] .ring { animation: pulse 0.5s ease-in-out infinite alternate; }
+  .hero-block { display: flex; flex-direction: column; gap: 1px; }
+  .eyebrow-notch { color: var(--accent); font-size: 8.5px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; }
+  .hero { font-size: 22px; font-weight: 500; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .skip, .join {
+    height: 28px; padding: 0 12px; border: 0; border-radius: 999px; font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: transform var(--dur-hover) ease-out, box-shadow var(--dur-hover) ease-out;
+  }
+  .skip { margin-left: auto; background: var(--surface-control); }
+  .join { background: var(--accent); color: var(--on-accent); }
+  .skip:hover, .join:hover { transform: scale(1.04); }
+  .skip:active, .join:active, .demo[data-join-pressed='true'] .join { transform: scale(0.97); }
+  .demo[data-pulsing='true'] .join { box-shadow: 0 0 8px rgb(232 133 97 / 0.4); }
+  .card-title { margin-top: 12px; font-size: 15px; font-weight: 600; }
+  .meta { margin-top: 3px; display: flex; align-items: center; gap: 6px; color: var(--cream-2); font-size: 11.5px; }
+  .provider { width: 14px; height: 14px; border-radius: 4px; background: #2d8cff; color: #fff; font-size: 9px; font-weight: 700; display: grid; place-items: center; }
+  .later { list-style: none; margin-top: 12px; padding: 8px 12px; border-radius: 12px; background: var(--surface-quiet); display: grid; gap: 6px; font-size: 11.5px; }
+  .later li { display: flex; gap: 8px; }
+  .later-time { color: var(--cream-2); font-variant-numeric: tabular-nums; }
+  .later-title { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .later-svc { color: var(--cream-3); }
+
+  .ghost {
+    position: absolute; z-index: 3; left: 610px; top: 210px; width: 16px; height: 22px; opacity: 0;
+    fill: #fff; stroke: #000; stroke-width: 0.8; pointer-events: none;
+    transition: left 700ms var(--ease-notch), top 700ms var(--ease-notch), opacity 200ms ease-out;
+  }
+  .demo[data-cursor='approach'] .ghost { opacity: 1; }
+  .demo[data-cursor='notch'] .ghost { opacity: 1; left: 455px; top: 14px; }
+  .demo[data-cursor='join'] .ghost { opacity: 1; left: 519px; top: 55px; }
+
+  .toast {
+    position: absolute; left: 50%; bottom: 20px; z-index: 4; translate: -50% 0; padding: 8px 14px; border-radius: 999px;
+    background: rgb(0 0 0 / 0.7); font-size: 12.5px; opacity: 0; transition: opacity 200ms ease-out; pointer-events: none;
+  }
+  .toast[data-visible='true'] { opacity: 1; }
+
+  .below { margin-top: 20px; display: grid; justify-items: center; gap: 12px; text-align: center; }
+  .caption { min-height: 1.5em; color: var(--cream); font-size: 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
+  .timelapse { padding: 1px 8px; border: 1px solid var(--hairline); border-radius: 999px; color: var(--cream-3); font-size: 11px; }
+  .timelapse[hidden] { display: none; }
+  .hint { color: var(--cream-3); font-size: 13px; }
+  .hint-touch { display: none; }
+  @media (hover: none) { .hint-hover { display: none; } .hint-touch { display: inline; } }
+  .dots { display: flex; gap: 2px; }
+  .dot-btn { width: 8px; height: 8px; padding: 6px; box-sizing: content-box; border: 0; border-radius: 50%; background: var(--cream-3); background-clip: content-box; cursor: pointer; }
+  .dot-btn[aria-current='step'] { background-color: var(--cream); }
+  .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .chip { padding: 6px 12px; border: 0; border-radius: 999px; background: var(--surface-control); font-size: 13px; cursor: pointer; transition: background-color var(--dur-hover) ease-out; }
+  .chip[aria-pressed='true'] { background: var(--accent); color: var(--on-accent); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .notch, .ring-fill, .ghost { transition: none; }
+    .compact, .card { transition: opacity 120ms ease-in-out; }
+    .ghost { display: none; }
+    .demo[data-pulsing='true'] .ring, .trail[data-marquee='true'] .trail-text { animation: none; }
+  }
+</style>

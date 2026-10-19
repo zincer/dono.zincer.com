@@ -1,5 +1,6 @@
 ---
-import NotchDemo from '../components/NotchDemo.astro'
+import Hero from '../components/Hero.astro'
+import Nav from '../components/Nav.astro'
 import Base from '../layouts/Base.astro'
 ---
 
@@ -7,8 +8,8 @@ import Base from '../layouts/Base.astro'
   title="Dono · Your day, in the notch"
   description="Dono turns the notch on your Mac into a calm countdown to your next meeting, with a planner that fits your tasks around your calendar."
 >
-  <main class="wrap">
-    <h1>Your day, in the notch.</h1>
-    <NotchDemo />
+  <Nav />
+  <main>
+    <Hero />
   </main>
 </Base>

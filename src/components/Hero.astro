@@ -1,0 +1,22 @@
+---
+import NotchDemo from './NotchDemo.astro'
+import Signup from './Signup.astro'
+---
+
+<section class="hero wrap">
+  <h1>Your day, in the notch.</h1>
+  <p class="lede">
+    Dono turns the notch on your Mac into a calm countdown to your next meeting, and pairs it with a planner that fits your tasks around your calendar.
+  </p>
+  <div class="demo-slot"><NotchDemo /></div>
+  <Signup id="signup-hero" />
+  <p class="fine">Free during beta · Apple silicon · macOS 26 or later</p>
+</section>
+
+<style>
+  .hero { display: grid; justify-items: center; text-align: center; gap: 0; padding-top: clamp(48px, 9vw, 112px); padding-bottom: clamp(64px, 10vw, 120px); }
+  h1 { font-size: clamp(44px, 8vw, 88px); font-weight: 650; letter-spacing: -0.035em; line-height: 1; }
+  .lede { margin-top: 20px; margin-inline: auto; font-size: clamp(17px, 2.2vw, 20px); }
+  .demo-slot { width: 100%; margin-block: clamp(40px, 6vw, 64px) 40px; }
+  .fine { margin-top: 6px; color: var(--cream-3); font-size: 13px; }
+</style>

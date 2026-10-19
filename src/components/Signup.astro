@@ -1,0 +1,45 @@
+---
+import { CONTACT_EMAIL, SIGNUP_ENDPOINT } from '../config'
+
+interface Props {
+  id: string
+}
+
+const { id } = Astro.props
+const open = SIGNUP_ENDPOINT !== ''
+---
+
+<form class="signup" data-signup data-endpoint={SIGNUP_ENDPOINT} action={open ? SIGNUP_ENDPOINT : undefined} method="post">
+  <div class="row">
+    <label class="sr-only" for={id}>Email address</label>
+    <input id={id} name="email" type="email" required autocomplete="email" placeholder="you@email.com" disabled={!open} />
+    <button type="submit" disabled={!open}>Join the beta</button>
+  </div>
+  <p class="status" data-status role="status">
+    {!open && <>Beta signups open soon. Write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</>}
+  </p>
+</form>
+
+<script>
+  import { enhanceSignupForms } from '../scripts/signup'
+
+  enhanceSignupForms()
+</script>
+
+<style>
+  .signup { display: grid; justify-items: center; gap: 10px; width: 100%; }
+  .row { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; width: 100%; }
+  input {
+    flex: 1 1 220px; max-width: 320px; min-width: 0; height: 44px; padding: 0 16px; border: 0; border-radius: 999px;
+    background: var(--surface-control); color: var(--cream);
+  }
+  input::placeholder { color: var(--cream-3); }
+  button {
+    height: 44px; padding: 0 20px; border: 0; border-radius: 999px; background: var(--accent); color: var(--on-accent);
+    font-weight: 600; cursor: pointer; transition: transform var(--dur-hover) ease-out;
+  }
+  button:hover:not(:disabled) { transform: scale(1.04); }
+  input:disabled, button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .status { min-height: 1.5em; color: var(--cream-2); font-size: 14px; text-align: center; }
+  .status a { color: var(--cream); }
+</style>

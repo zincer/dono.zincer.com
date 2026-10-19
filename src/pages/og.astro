@@ -1,0 +1,21 @@
+---
+import MiniNotch from '../components/MiniNotch.astro'
+import Base from '../layouts/Base.astro'
+---
+
+<Base title="Dono social image" description="Source for og.png." noindex>
+  <div class="og">
+    <div class="bar"><div class="notch"><MiniNotch lead="-04:12" tone="upcoming" title="Design review" label="Dono notch counting down" /></div></div>
+    <h1>Your day, in the notch.</h1>
+    <p><span class="mark"></span>Dono · dono.zincer.com</p>
+  </div>
+</Base>
+
+<style>
+  .og { width: 1200px; height: 630px; display: grid; justify-items: center; align-content: center; gap: 36px; background: radial-gradient(120% 90% at 50% 0%, #3b3550, var(--canvas) 70%); overflow: hidden; }
+  .bar { position: absolute; top: 0; left: 0; right: 0; height: 64px; background: rgb(0 0 0 / 0.28); }
+  .notch { scale: 2; transform-origin: top center; }
+  h1 { margin-top: 40px; font-size: 92px; font-weight: 650; letter-spacing: -0.035em; }
+  p { display: flex; align-items: center; gap: 12px; color: var(--cream-2); font-size: 28px; }
+  .mark { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); }
+</style>

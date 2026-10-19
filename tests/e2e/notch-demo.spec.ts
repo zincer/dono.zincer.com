@@ -38,6 +38,7 @@ test.describe('on a desktop with a mouse', () => {
     const demo = page.locator('[data-demo]')
     await demo.locator('[data-scenario="countdown"]').click()
     await demo.locator('[data-toggle]').hover()
+    await expect(demo).toHaveAttribute('data-expanded', 'true')
     await demo.locator('[data-skip]').click()
     await expect(demo.locator('[data-trail]')).toHaveText('1:1 with Sam')
     await expect(demo.locator('[data-lead-text]')).toHaveText('16:30')

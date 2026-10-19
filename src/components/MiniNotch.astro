@@ -1,0 +1,40 @@
+---
+interface Props {
+  lead: string
+  tone?: 'dot' | 'upcoming' | 'imminent' | 'started' | 'focus' | 'over'
+  title: string
+  label: string
+}
+
+const { lead, tone = 'dot', title, label } = Astro.props
+---
+
+<div class="mini" role="img" aria-label={label} data-tone={tone}>
+  <span class="wing lead">
+    {tone === 'dot' && <span class="dot"></span>}
+    {(tone === 'focus' || tone === 'over') && <svg class="glyph" viewBox="0 0 8 8"><path d="M1 .5 7.5 4 1 7.5z"></path></svg>}
+    <span class="tabular">{lead}</span>
+  </span>
+  <span class="cutout"></span>
+  <span class="wing trail">{title}</span>
+</div>
+
+<style>
+  .mini {
+    position: relative; display: flex; align-items: center; width: 240px; height: 28px; margin-inline: auto;
+    background: var(--notch); border-radius: 0 0 11px 11px; font-size: 12px; font-weight: 500; line-height: 1; color: var(--cream-2);
+  }
+  .mini::before, .mini::after { content: ''; position: absolute; top: 0; width: 9px; height: 9px; }
+  .mini::before { left: -9px; background: radial-gradient(circle at 0 100%, transparent 9px, var(--notch) 9.5px); }
+  .mini::after { right: -9px; background: radial-gradient(circle at 100% 100%, transparent 9px, var(--notch) 9.5px); }
+  .wing { width: 60px; display: flex; align-items: center; gap: 4px; overflow: hidden; white-space: nowrap; }
+  .lead { padding-left: 6px; }
+  .cutout { flex: 1; }
+  .trail { justify-content: flex-start; padding-right: 8px; mask-image: linear-gradient(90deg, #000 75%, transparent); -webkit-mask-image: linear-gradient(90deg, #000 75%, transparent); }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none; }
+  .glyph { width: 7px; height: 7px; fill: currentColor; flex: none; }
+  .mini[data-tone='upcoming'] .lead, .mini[data-tone='over'] .lead { color: var(--timer-upcoming); }
+  .mini[data-tone='imminent'] .lead { color: var(--timer-imminent); }
+  .mini[data-tone='started'] .lead { color: var(--timer-started); }
+  .mini:not([data-tone='dot']) .lead { padding-left: 10px; }
+</style>

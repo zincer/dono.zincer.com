@@ -1,6 +1,15 @@
 ---
+import ComingNext from '../components/ComingNext.astro'
+import Faq from '../components/Faq.astro'
+import Focus from '../components/Focus.astro'
+import Footer from '../components/Footer.astro'
 import Hero from '../components/Hero.astro'
 import Nav from '../components/Nav.astro'
+import NotchStrip from '../components/NotchStrip.astro'
+import Phone from '../components/Phone.astro'
+import Planner from '../components/Planner.astro'
+import Privacy from '../components/Privacy.astro'
+import Signup from '../components/Signup.astro'
 import Base from '../layouts/Base.astro'
 ---
 
@@ -11,5 +20,23 @@ import Base from '../layouts/Base.astro'
   <Nav />
   <main>
     <Hero />
+    <NotchStrip />
+    <Planner />
+    <Focus />
+    <Phone />
+    <Privacy />
+    <ComingNext />
+    <Faq />
+    <section id="join" class="section closing">
+      <div class="wrap">
+        <h2>Get Dono early.</h2>
+        <Signup id="signup-closing" />
+      </div>
+    </section>
   </main>
+  <Footer />
 </Base>
+
+<style>
+  .closing .wrap { display: grid; justify-items: center; gap: 28px; text-align: center; }
+</style>

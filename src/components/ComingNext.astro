@@ -1,0 +1,34 @@
+---
+const DRAFTS = [
+  { time: '09:30', title: 'Deep work: Q4 roadmap', length: '1h' },
+  { time: '13:00', title: 'Reply to Ana', length: '20m' },
+  { time: '18:00', title: 'Run', length: '45m' },
+] as const
+---
+
+<section id="next" class="section">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow">Coming next <span class="badge">In the works</span></p>
+      <h2>Plan my day.</h2>
+      <p class="lede">Type a messy list and Dono drafts your day on-device. You accept, adjust or dismiss. Nothing moves without you.</p>
+    </div>
+    <div class="drafts" role="img" aria-label="A drafted day: three dashed suggestion blocks with Accept all, Adjust and Dismiss">
+      {DRAFTS.map((draft) => (
+        <div class="draft"><span class="tabular time">{draft.time}</span><span class="title">{draft.title}</span><span class="tabular len">{draft.length}</span></div>
+      ))}
+      <div class="actions"><span class="accept">Accept all</span><span>Adjust</span><span>Dismiss</span></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .badge { margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--surface-control); color: var(--cream-2); letter-spacing: 0.04em; }
+  .drafts { display: grid; gap: 10px; }
+  .draft { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border: 1.5px dashed var(--cream-3); border-radius: 8px; opacity: 0.7; }
+  .time, .len { color: var(--cream-2); font-size: 14px; }
+  .title { flex: 1; min-width: 0; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; font-size: 14px; font-weight: 600; }
+  .actions span { padding: 6px 14px; border-radius: 999px; background: var(--surface-control); }
+  .actions .accept { background: var(--accent); color: var(--on-accent); }
+</style>

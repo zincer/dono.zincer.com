@@ -1,0 +1,33 @@
+---
+const QUESTIONS = [
+  { q: 'Which Macs?', a: 'Macs with Apple silicon on macOS 26 or later. Notch Macs get the full effect; others get a slim pill.' },
+  { q: 'What does it cost?', a: "Free during the beta. We'll announce pricing before the beta ends, and beta testers hear first." },
+  { q: 'Do I need Google or Outlook accounts?', a: 'No. Add them to macOS Calendar and Dono sees them.' },
+  { q: 'Does it work without a calendar?', a: 'Yes. The planner works on its own.' },
+] as const
+---
+
+<section id="faq" class="section">
+  <div class="wrap">
+    <p class="eyebrow">FAQ</p>
+    <h2>Questions</h2>
+    <div class="list">
+      {QUESTIONS.map((item) => (
+        <details>
+          <summary>{item.q}</summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .list { margin-top: 32px; max-width: 46rem; border-top: 1px solid var(--hairline); }
+  details { border-bottom: 1px solid var(--hairline); }
+  summary { padding: 18px 0; font-size: 18px; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; color: var(--cream-3); transition: rotate var(--dur-hover) ease-out; }
+  details[open] summary::after { rotate: 45deg; }
+  details p { padding-bottom: 18px; color: var(--cream-2); }
+</style>

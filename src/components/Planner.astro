@@ -1,0 +1,70 @@
+---
+const TASKS = [
+  { title: 'Review PR #42', estimate: '30m', at: '~10:00' },
+  { title: 'Write the brief', estimate: '45m', at: '~10:30' },
+  { title: 'Reply to Ana', estimate: null, at: '~11:45' },
+  { title: 'Plan Q4 roadmap', estimate: '1h', at: '~12:05' },
+] as const
+const HOURS = ['10:00', '11:00', '12:00'] as const
+---
+
+<section id="planner" class="section">
+  <div class="wrap split">
+    <div>
+      <p class="eyebrow">Planner</p>
+      <h2>Tasks that know about your meetings.</h2>
+      <p class="lede">
+        Drag tasks onto your day. Dono projects when each one will actually start (~10:40), skipping meetings, and tells you calmly when the day is overbooked. ⌘K finds anything.
+      </p>
+    </div>
+    <div class="planner" role="img" aria-label="Today's tasks with projected start times beside a timeline with a meeting at 11:15">
+      <div class="head">
+        <span class="day">Today</span>
+        <span class="totals tabular">2h 35m planned · 7h 30m free</span>
+        <span class="search">⌘K</span>
+      </div>
+      <div class="body">
+        <ul class="tasks">
+          {TASKS.map((task) => (
+            <li>
+              <span class="circle"></span>
+              <span class="title">{task.title}</span>
+              <span class="meta tabular">
+                {task.estimate && <span class="chip">{task.estimate}</span>}
+                <span class="proj">{task.at}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+        <div class="timeline">
+          {HOURS.map((hour, index) => <span class="hour tabular" style={`top:${index * 48}px`}>{hour}</span>)}
+          <span class="block task" style="top:24px;height:36px">Write the brief</span>
+          <span class="block meeting" style="top:60px;height:24px">Design sync</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .planner { border-radius: 14px; background: rgb(255 255 255 / 0.03); box-shadow: inset 0 0 0 1px var(--hairline); padding: 16px; font-size: 14px; }
+  .head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .day { font-size: 18px; font-weight: 600; }
+  .totals { color: var(--cream-2); font-size: 13px; }
+  .search { margin-left: auto; padding: 2px 8px; border-radius: 6px; background: var(--surface-control); color: var(--cream-2); font-size: 12px; }
+  .body { margin-top: 14px; display: grid; gap: 16px; }
+  @media (min-width: 600px) { .body { grid-template-columns: 1.2fr 1fr; } }
+  .tasks { list-style: none; padding: 0; display: grid; gap: 6px; }
+  .tasks li { display: grid; grid-template-columns: 16px 1fr; column-gap: 10px; padding: 8px 12px; border-radius: 8px; background: var(--surface-quiet); }
+  .circle { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--cream-3); margin-top: 2px; }
+  .title { min-width: 0; }
+  .meta { grid-column: 2; display: flex; gap: 8px; align-items: center; font-size: 13px; }
+  .chip { padding: 0 6px; border-radius: 4px; background: var(--surface-control); color: var(--cream-2); font-weight: 600; }
+  .proj { color: var(--cream-3); }
+  .timeline { position: relative; height: 144px; margin-left: 44px; border-left: 1px solid var(--hairline); }
+  .hour { position: absolute; left: -44px; translate: 0 -50%; color: var(--cream-3); font-size: 11px; }
+  .hour:first-child { translate: 0 0; }
+  .block { position: absolute; left: 8px; right: 0; padding: 3px 8px; border-radius: 6px; font-size: 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .task { background: rgb(232 133 97 / 0.16); box-shadow: inset 2px 0 0 var(--accent); }
+  .meeting { background: rgb(45 140 255 / 0.18); box-shadow: inset 2px 0 0 #2d8cff; }
+</style>

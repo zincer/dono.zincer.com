@@ -1,0 +1,17 @@
+---
+import { CONTACT_EMAIL } from '../config'
+---
+
+<footer class="footer">
+  <div class="wrap inner">
+    <span>© 2026 Zincer</span>
+    <span>This site uses no cookies, analytics or third-party requests.</span>
+    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+  </div>
+</footer>
+
+<style>
+  .footer { border-top: 1px solid var(--hairline); padding-block: 32px; color: var(--cream-3); font-size: 14px; }
+  .inner { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+  a { color: var(--cream-2); margin-left: auto; }
+</style>

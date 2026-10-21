@@ -26,7 +26,11 @@ The notch demo's colours and timings come from the app (`AkeDesign.swift`, `Notc
 
 1. The repo is `zincer/ake.to`: remote `git@github.com-ntnthien:zincer/ake.to.git` (the ntnthien SSH alias; the default github.com key has no access).
 2. Settings → Pages → Build and deployment → Source: **GitHub Actions**. Custom domain: `ake.to`.
-3. DNS for zincer.com: add `CNAME ake → zincer.github.io`.
+3. DNS for ake.to (an apex domain, so no CNAME at the root), set **before** pushing — `public/CNAME` says `ake.to`:
+   - `A` records for `ake.to`: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+     (or an `ALIAS`/`ANAME` to `zincer.github.io` if the DNS host supports it)
+   - optional `AAAA`: `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`
+   - `CNAME www → zincer.github.io`
 4. When the certificate is issued, tick **Enforce HTTPS**.
 
 Every push to `main` then runs the tests and deploys.

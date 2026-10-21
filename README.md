@@ -1,6 +1,6 @@
-# dono.zincer.com
+# ake.to
 
-The landing page for Dono, the notch calendar and day planner for the Mac. Astro, static, deployed to GitHub Pages.
+The landing page for Ake, the notch calendar and day planner for the Mac. Astro, static, deployed to GitHub Pages.
 
 ## Commands
 
@@ -20,13 +20,13 @@ The landing page for Dono, the notch calendar and day planner for the Mac. Astro
 - `SIGNUP_ENDPOINT`: empty means the form is disabled and says "Beta signups open soon". Set it to a Formspree-style endpoint (accepts a POSTed `email` field, answers JSON when asked with `Accept: application/json`) to open signups. No other change is needed.
 - `CONTACT_EMAIL`: shown in the signup note and the footer.
 
-The notch demo's colours and timings come from the app (`DonoDesign.swift`, `NotchLayout.swift`, `NotchTimeFormatter.swift`, `RingProgress.swift`, `TimeAccounting.swift`). If they change there, update `src/styles/tokens.css` and `src/scripts/notch/format.ts`.
+The notch demo's colours and timings come from the app (`AkeDesign.swift`, `NotchLayout.swift`, `NotchTimeFormatter.swift`, `RingProgress.swift`, `TimeAccounting.swift`). If they change there, update `src/styles/tokens.css` and `src/scripts/notch/format.ts`.
 
 ## Deploy (one-time setup by the owner)
 
-1. The repo is `zincer/dono.zincer.com`: remote `git@github.com-ntnthien:zincer/dono.zincer.com.git` (the ntnthien SSH alias; the default github.com key has no access).
-2. Settings → Pages → Build and deployment → Source: **GitHub Actions**. Custom domain: `dono.zincer.com`.
-3. DNS for zincer.com: add `CNAME dono → zincer.github.io`.
+1. The repo is `zincer/ake.to`: remote `git@github.com-ntnthien:zincer/ake.to.git` (the ntnthien SSH alias; the default github.com key has no access).
+2. Settings → Pages → Build and deployment → Source: **GitHub Actions**. Custom domain: `ake.to`.
+3. DNS for zincer.com: add `CNAME ake → zincer.github.io`.
 4. When the certificate is issued, tick **Enforce HTTPS**.
 
 Every push to `main` then runs the tests and deploys.

@@ -1,4 +1,4 @@
-export const SITE_URL = 'https://dono.zincer.com'
+export const SITE_URL = 'https://ake.to'
 export const CONTACT_EMAIL = 'hi@zincer.com'
 /**
  * Where beta signups are POSTed (a Formspree-style endpoint that answers JSON).

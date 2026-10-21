@@ -1,4 +1,4 @@
-# Toolchain and tasks for the Dono landing page.
+# Toolchain and tasks for the Ake landing page.
 # Put secrets (GH_TOKEN for the zincer GitHub account) in mise.local.toml, which is gitignored.
 # See mise.local.toml.example.
 

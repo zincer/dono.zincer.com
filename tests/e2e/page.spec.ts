@@ -10,7 +10,7 @@ test('every section is on the page in order', async ({ page }) => {
     'Your calendar stays yours.',
     'Plan my day.',
     'Questions',
-    'Get Dono early.',
+    'Get Ake early.',
   ])
 })
 

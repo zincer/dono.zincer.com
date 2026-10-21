@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config'
 
 export default defineConfig({
-  site: 'https://dono.zincer.com',
+  site: 'https://ake.to',
   output: 'static',
 })

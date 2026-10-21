@@ -9,7 +9,7 @@ test('home page loads without console errors', async ({ page }) => {
 
   await page.goto('/')
 
-  await expect(page).toHaveTitle('Dono · Your day, in the notch')
+  await expect(page).toHaveTitle('Ake · Your day, in the notch')
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your day, in the notch.')
   expect(errors).toEqual([])
 })

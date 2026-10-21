@@ -1,4 +1,4 @@
-/* Dono's notch palette (DonoDesign.swift), scaled up to the page. Dark only. */
+/* Ake's notch palette (AkeDesign.swift, Dawn palette), scaled up to the page. Dark only. */
 :root {
   color-scheme: dark;
   --canvas: rgb(9 9 8);
@@ -8,10 +8,10 @@
   --surface-quiet: rgb(242 237 227 / 0.05);
   --surface-control: rgb(242 237 227 / 0.085);
   --hairline: rgb(242 237 227 / 0.08);
-  --accent: rgb(232 133 97);
+  --accent: rgb(239 111 60);
   --on-accent: rgb(0 0 0 / 0.86);
-  --timer-upcoming: rgb(250 158 56);
-  --timer-imminent: rgb(245 84 77);
+  --timer-upcoming: rgb(246 161 58);
+  --timer-imminent: rgb(217 67 79);
   --timer-started: rgb(89 204 120);
   --notch: #000;
   --ease-notch: cubic-bezier(0.2, 0.9, 0.3, 1);

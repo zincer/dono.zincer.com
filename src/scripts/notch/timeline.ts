@@ -27,7 +27,7 @@ export const STEPS: readonly Step[] = [
 
 export const LOOP_MS = 24_000
 export const MAX_FRAME_MS = 100
-/** DonoDesign.Motion.expandDelay / collapseDelay. */
+/** AkeDesign.Motion.expandDelay / collapseDelay. */
 export const OPEN_DELAY_MS = 150
 export const CLOSE_DELAY_MS = 400
 export const RESUME_AFTER_MS = 4000

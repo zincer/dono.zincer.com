@@ -19,7 +19,7 @@ export async function sendSignup(endpoint: string, email: string, fetchFn: typeo
     const response = await fetchFn(endpoint, { method: 'POST', body, headers: { Accept: 'application/json' } })
     return response.ok ? 'success' : 'error'
   } catch (error) {
-    console.error('Beta signup failed:', error)
+    console.error('Waitlist signup failed:', error)
     return 'error'
   }
 }

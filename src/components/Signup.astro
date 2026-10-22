@@ -13,10 +13,10 @@ const open = SIGNUP_ENDPOINT !== ''
   <div class="row">
     <label class="sr-only" for={id}>Email address</label>
     <input id={id} name="email" type="email" required autocomplete="email" placeholder="you@email.com" disabled={!open} />
-    <button type="submit" disabled={!open}>Join the beta</button>
+    <button type="submit" disabled={!open}>Join the waitlist</button>
   </div>
   <p class="status" data-status role="status">
-    {!open && <>Beta signups open soon. Write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</>}
+    {!open && <>The waitlist opens soon. Write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</>}
   </p>
 </form>
 

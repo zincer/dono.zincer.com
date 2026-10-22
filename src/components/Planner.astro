@@ -1,4 +1,6 @@
 ---
+import Badge from './Badge.astro'
+
 const TASKS = [
   { title: 'Review PR #42', estimate: '30m', at: '~10:00' },
   { title: 'Write the brief', estimate: '45m', at: '~10:30' },
@@ -11,10 +13,10 @@ const HOURS = ['10:00', '11:00', '12:00'] as const
 <section id="planner" class="section">
   <div class="wrap split">
     <div>
-      <p class="eyebrow">Planner</p>
+      <p class="eyebrow">Planner <Badge /></p>
       <h2>Tasks that know about your meetings.</h2>
       <p class="lede">
-        Drag tasks onto your day. Ake projects when each one will actually start (~10:40), skipping meetings, and tells you calmly when the day is overbooked. ⌘K finds anything.
+        Drag tasks onto your day. Ake will project when each one actually starts (~10:40), skip your meetings, and tell you calmly when the day is overbooked. ⌘K will find anything.
       </p>
     </div>
     <div class="planner" role="img" aria-label="Today's tasks with projected start times beside a timeline with a meeting at 11:15">

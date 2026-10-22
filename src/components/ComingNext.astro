@@ -1,4 +1,6 @@
 ---
+import Badge from './Badge.astro'
+
 const DRAFTS = [
   { time: '09:30', title: 'Deep work: Q4 roadmap', length: '1h' },
   { time: '13:00', title: 'Reply to Ana', length: '20m' },
@@ -6,10 +8,10 @@ const DRAFTS = [
 ] as const
 ---
 
-<section id="next" class="section">
+<section id="plan-my-day" class="section">
   <div class="wrap split">
     <div>
-      <p class="eyebrow">Coming next <span class="badge">In the works</span></p>
+      <p class="eyebrow">Plan my day <Badge /></p>
       <h2>Plan my day.</h2>
       <p class="lede">Type a messy list and Ake drafts your day on-device. You accept, adjust or dismiss. Nothing moves without you.</p>
     </div>
@@ -23,7 +25,6 @@ const DRAFTS = [
 </section>
 
 <style>
-  .badge { margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--surface-control); color: var(--cream-2); letter-spacing: 0.04em; }
   .drafts { display: grid; gap: 10px; }
   .draft { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border: 1.5px dashed var(--cream-3); border-radius: 8px; opacity: 0.7; }
   .time, .len { color: var(--cream-2); font-size: 14px; }

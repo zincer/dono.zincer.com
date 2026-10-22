@@ -1,0 +1,21 @@
+---
+import { CONTACT_EMAIL } from '../config'
+import Prose from '../layouts/Prose.astro'
+---
+
+<Prose title="Support · Ake" description="Get help with Ake, the notch countdown for your Mac." heading="Support">
+  <p>Write to <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>. Include your macOS version and what you expected to happen.</p>
+
+  <h2>Common questions</h2>
+  <p>Which Macs and calendars work, and which meeting apps Join opens: see the <a href="/#faq">FAQ</a>.</p>
+
+  <h2>Ake doesn’t show my meetings</h2>
+  <p>Check that Ake has access in System Settings › Privacy &amp; Security › Calendars, and that the calendar is switched on in Ake’s Settings › Calendars (Settings is in the menu under Ake’s menu-bar icon).</p>
+
+  <h2>Start fresh</h2>
+  <ol>
+    <li>Quit Ake from its menu-bar icon.</li>
+    <li>Move Ake from Applications to the Trash.</li>
+    <li>To remove its settings too, delete the folder <code>~/Library/Containers/com.zincer.ake</code>.</li>
+  </ol>
+</Prose>

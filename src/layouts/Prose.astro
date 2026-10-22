@@ -1,0 +1,32 @@
+---
+import Footer from '../components/Footer.astro'
+import Nav from '../components/Nav.astro'
+import Base from './Base.astro'
+
+interface Props {
+  title: string
+  description: string
+  heading: string
+}
+
+const { title, description, heading } = Astro.props
+---
+
+<Base title={title} description={description}>
+  <Nav />
+  <main class="prose wrap">
+    <h1>{heading}</h1>
+    <slot />
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .prose { max-width: 46rem; padding-block: clamp(48px, 8vw, 96px); overflow-wrap: anywhere; }
+  h1 { font-size: clamp(36px, 6vw, 56px); font-weight: 650; letter-spacing: -0.03em; line-height: 1.05; }
+  .prose :global(h2) { margin-top: 40px; font-size: 22px; font-weight: 600; }
+  .prose :global(p), .prose :global(ol) { margin-top: 12px; color: var(--cream-2); }
+  .prose :global(ol) { padding-left: 1.25em; display: grid; gap: 6px; }
+  .prose :global(a) { color: var(--cream); }
+  .prose :global(code) { font-size: 0.95em; }
+</style>

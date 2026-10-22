@@ -43,9 +43,13 @@ test('the privacy section says no data is collected', async ({ page }) => {
   await expect(page.locator('#privacy')).toContainText('Data Not Collected')
 })
 
-test('the footer links the contact address', async ({ page }) => {
+test('the footer links the contact address and the launch pages', async ({ page }) => {
   await page.goto('/')
-  await expect(page.locator('footer').getByRole('link', { name: 'hi@zincer.com' })).toHaveAttribute('href', 'mailto:hi@zincer.com')
+  const footer = page.locator('footer')
+  await expect(footer.getByRole('link', { name: 'hi@zincer.com' })).toHaveAttribute('href', 'mailto:hi@zincer.com')
+  await expect(footer.getByRole('link', { name: 'What’s next' })).toHaveAttribute('href', '/next')
+  await expect(footer.getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/privacy')
+  await expect(footer.getByRole('link', { name: 'Support' })).toHaveAttribute('href', '/support')
 })
 
 for (const width of [320, 375, 768, 1280]) {

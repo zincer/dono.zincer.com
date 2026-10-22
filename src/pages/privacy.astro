@@ -1,0 +1,29 @@
+---
+import { CONTACT_EMAIL } from '../config'
+import Prose from '../layouts/Prose.astro'
+---
+
+<Prose title="Privacy · Ake" description="Ake collects no data. Your calendars stay on your Mac." heading="Privacy">
+  <p>Last updated 22 October 2026.</p>
+
+  <h2>The short version</h2>
+  <p>Ake collects no data. It has no account, no servers of its own, no analytics and no crash reporting. Your calendars stay on your Mac.</p>
+
+  <h2>What Ake reads</h2>
+  <p>With your permission, Ake reads the events in macOS Calendar to show your next meeting around the notch. It only reads them: it never creates, changes or deletes an event. You can turn access off at any time in System Settings › Privacy &amp; Security › Calendars.</p>
+
+  <h2>What leaves your Mac</h2>
+  <p>Nothing. When you press Join, Ake opens the meeting’s own link in your browser or meeting app, as clicking it in Calendar would.</p>
+
+  <h2>Your settings</h2>
+  <p>Choices such as which calendars to show are stored on your Mac, inside Ake’s own container.</p>
+
+  <h2>This website</h2>
+  <p>ake.to uses no cookies, analytics or third-party requests. If you join the waitlist on the What’s next page, we keep your email address only to tell you when new features ship, and delete it when you ask.</p>
+
+  <h2>Changes</h2>
+  <p>We will update this page, and the date above, before Ake gains any feature that sends data off your Mac.</p>
+
+  <h2>Contact</h2>
+  <p>Ake is made by Zincer. Questions: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+</Prose>

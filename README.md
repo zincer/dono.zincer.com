@@ -1,6 +1,6 @@
 # ake.to
 
-The landing page for Ake, the notch calendar and day planner for the Mac. Astro, static, deployed to GitHub Pages.
+The landing page for Ake, the notch meeting countdown for the Mac. Astro, static, deployed to GitHub Pages. Pages: `/`, `/next` (what's coming, waitlist), `/privacy`, `/support`.
 
 ## Commands
 

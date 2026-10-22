@@ -5,13 +5,20 @@ import { CONTACT_EMAIL } from '../config'
 <footer class="footer">
   <div class="wrap inner">
     <span>© 2026 Zincer</span>
+    <nav class="pages" aria-label="Footer">
+      <a href="/next">What’s next</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/support">Support</a>
+    </nav>
     <span>This site uses no cookies, analytics or third-party requests.</span>
-    <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+    <a class="mail" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
   </div>
 </footer>
 
 <style>
   .footer { border-top: 1px solid var(--hairline); padding-block: 32px; color: var(--cream-3); font-size: 14px; }
   .inner { display: flex; flex-wrap: wrap; gap: 8px 24px; }
-  a { color: var(--cream-2); margin-left: auto; }
+  .pages { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+  a { color: var(--cream-2); }
+  .mail { margin-left: auto; }
 </style>

@@ -33,7 +33,7 @@ for (const { path, title } of PAGES) {
   test(`${path} nav links land on home sections`, async ({ page }) => {
     await page.goto(path)
     const hrefs = await page.locator('header nav a[href^="/#"]').evaluateAll((links) => links.map((link) => link.getAttribute('href') ?? ''))
-    expect(hrefs).toEqual(['/#notch', '/#privacy', '/#faq', '/#get'])
+    expect(hrefs).toEqual(['/#privacy', '/#faq', '/#get'])
     for (const href of hrefs) {
       await page.goto(href)
       await expect(page.locator(href.slice(1))).toHaveCount(1)

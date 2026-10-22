@@ -10,7 +10,6 @@ const forbidden = new RegExp(
 test('every section is on the page in order', async ({ page }) => {
   await page.goto('/')
   await expect(page.getByRole('heading', { level: 2 })).toHaveText([
-    'Never miss the start.',
     'Your calendar stays yours.',
     'Questions',
     'Get Ake.',

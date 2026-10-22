@@ -1,4 +1,11 @@
 import { expect, test } from '@playwright/test'
+import { TESTFLIGHT_URL } from '../../src/config'
+
+// TestFlight stays off the home page unless TESTFLIGHT_URL is set.
+const forbidden = new RegExp(
+  `planner|focus|\\btasks?\\b|plan my day|beta|iphone${TESTFLIGHT_URL.trim() === '' ? '|testflight' : ''}`,
+  'i',
+)
 
 test('every section is on the page in order', async ({ page }) => {
   await page.goto('/')
@@ -17,7 +24,7 @@ test('the home page sells only what Ake 1.0 does', async ({ page }) => {
     body.querySelectorAll('script, style').forEach((element) => element.remove())
     return body.textContent ?? ''
   })
-  expect(text).not.toMatch(/planner|focus|\btasks?\b|plan my day|beta|iphone|testflight/i)
+  expect(text).not.toMatch(forbidden)
 })
 
 test('every nav link lands on a home section', async ({ page }) => {

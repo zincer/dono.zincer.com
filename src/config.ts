@@ -6,3 +6,7 @@ export const CONTACT_EMAIL = 'hi@zincer.com'
  * Before setting it, name the form service in src/pages/privacy.astro ("This website").
  */
 export const SIGNUP_ENDPOINT = ''
+/** The Mac App Store listing. Empty: the call to action reads "Coming soon to the Mac App Store". */
+export const APP_STORE_URL = ''
+/** The public TestFlight link for early builds. Empty: no TestFlight link is shown. */
+export const TESTFLIGHT_URL = ''

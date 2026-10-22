@@ -3,13 +3,13 @@ import ComingNext from '../components/ComingNext.astro'
 import Faq from '../components/Faq.astro'
 import Focus from '../components/Focus.astro'
 import Footer from '../components/Footer.astro'
+import GetAke from '../components/GetAke.astro'
 import Hero from '../components/Hero.astro'
 import Nav from '../components/Nav.astro'
 import NotchStrip from '../components/NotchStrip.astro'
 import Phone from '../components/Phone.astro'
 import Planner from '../components/Planner.astro'
 import Privacy from '../components/Privacy.astro'
-import Signup from '../components/Signup.astro'
 import Base from '../layouts/Base.astro'
 ---
 
@@ -27,10 +27,11 @@ import Base from '../layouts/Base.astro'
     <Privacy />
     <ComingNext />
     <Faq />
-    <section id="join" class="section closing">
+    <section id="get" class="section closing">
       <div class="wrap">
-        <h2>Get Ake early.</h2>
-        <Signup id="signup-closing" />
+        <h2>Get Ake.</h2>
+        <GetAke />
+        <a class="next-link" href="/next">What’s next →</a>
       </div>
     </section>
   </main>
@@ -39,4 +40,5 @@ import Base from '../layouts/Base.astro'
 
 <style>
   .closing .wrap { display: grid; justify-items: center; gap: 28px; text-align: center; }
+  .next-link { color: var(--cream-2); font-size: 14px; }
 </style>

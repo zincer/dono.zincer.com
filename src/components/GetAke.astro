@@ -1,0 +1,20 @@
+---
+import { APP_STORE_URL, TESTFLIGHT_URL } from '../config'
+import { ctaView } from '../scripts/cta'
+
+const { store, testflight } = ctaView(APP_STORE_URL, TESTFLIGHT_URL)
+---
+
+<div class="get" data-get>
+  {store.kind === 'store'
+    ? <a class="store store-link" href={store.href} data-store>Download on the Mac App Store</a>
+    : <p class="soon" data-store-soon>Coming soon to the Mac App Store</p>}
+  {testflight && <a class="testflight" href={testflight} data-testflight>Try early builds on TestFlight</a>}
+</div>
+
+<style>
+  .get { display: grid; justify-items: center; gap: 10px; }
+  .store-link { padding: 10px 20px; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 600; text-decoration: none; }
+  .soon { padding: 10px 20px; border-radius: 999px; background: var(--surface-control); color: var(--cream); font-weight: 600; }
+  .testflight { color: var(--cream-2); font-size: 14px; }
+</style>

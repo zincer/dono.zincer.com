@@ -1,16 +1,16 @@
 ---
+import GetAke from './GetAke.astro'
 import NotchDemo from './NotchDemo.astro'
-import Signup from './Signup.astro'
 ---
 
 <section class="hero wrap">
   <h1>Your day, in the notch.</h1>
   <p class="lede">
-    Ake turns the notch on your Mac into a calm countdown to your next meeting, and pairs it with a planner that fits your tasks around your calendar.
+    Ake turns the notch on your Mac into a calm countdown to your next meeting, with one click to join when it starts.
   </p>
   <div class="demo-slot"><NotchDemo /></div>
-  <Signup id="signup-hero" />
-  <p class="fine">Free during beta · Apple silicon · macOS 26 or later</p>
+  <GetAke />
+  <p class="fine">Free · macOS 26 or later</p>
 </section>
 
 <style>

@@ -14,11 +14,11 @@ test('every section is on the page in order', async ({ page }) => {
   ])
 })
 
-test('every nav link lands on a section', async ({ page }) => {
+test('every nav link lands on a home section', async ({ page }) => {
   await page.goto('/')
-  const hrefs = await page.locator('header nav a[href^="#"]').evaluateAll((links) => links.map((link) => link.getAttribute('href')))
+  const hrefs = await page.locator('header nav a[href^="/#"]').evaluateAll((links) => links.map((link) => link.getAttribute('href')))
   expect(hrefs.length).toBeGreaterThan(0)
-  for (const href of hrefs) await expect(page.locator(href ?? '#missing')).toHaveCount(1)
+  for (const href of hrefs) await expect(page.locator((href ?? '/#missing').slice(1))).toHaveCount(1)
 })
 
 test('the FAQ states the requirements and the price', async ({ page }) => {

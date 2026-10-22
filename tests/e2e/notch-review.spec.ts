@@ -39,7 +39,7 @@ test('Skip from the keyboard keeps focus on the notch', async ({ page }) => {
   await expect(demo.locator('[data-toggle]')).toBeFocused()
 })
 
-test('hovering an idle notch opens today’s agenda, and Focus now starts focus', async ({ page }) => {
+test('hovering an idle notch opens today’s meetings and nothing else', async ({ page }) => {
   await page.goto('/')
   const demo = page.locator('[data-demo]')
   await demo.locator('[data-toggle]').hover()
@@ -48,20 +48,10 @@ test('hovering an idle notch opens today’s agenda, and Focus now starts focus'
   await expect(agenda).toBeVisible()
   await expect(agenda.locator('[data-agenda-row]:visible')).toHaveCount(3)
   await expect(agenda.locator('[data-agenda-row]').first()).toContainText('Design review')
-  await agenda.locator('[data-focus-now]').click()
-  await expect(demo).toHaveAttribute('data-lead', 'focus')
+  await expect(agenda.getByRole('button', { name: /Focus now|Open planner/ })).toHaveCount(0)
 })
 
-test('the focus notch opens the agenda with the focus row', async ({ page }) => {
+test('the scenario chips are the 1.0 notch states', async ({ page }) => {
   await page.goto('/')
-  const demo = page.locator('[data-demo]')
-  await demo.locator('[data-scenario="focus"]').focus()
-  await page.keyboard.press('Enter')
-  await demo.locator('[data-toggle]').focus()
-  await page.keyboard.press('Enter')
-  const agenda = demo.locator('[data-agenda]')
-  await expect(agenda.locator('[data-focus-row]')).toBeVisible()
-  await expect(agenda.locator('[data-focus-title]')).toHaveText('Write the brief')
-  await expect(agenda.locator('[data-agenda-row]:visible')).toHaveCount(2)
-  await expect(agenda.locator('[data-focus-now]')).toBeHidden()
+  await expect(page.locator('[data-demo] [data-scenario]')).toHaveText(['Idle', 'Countdown', 'Starting now'])
 })

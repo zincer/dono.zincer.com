@@ -16,12 +16,11 @@ export interface MeetingTimer {
 export type NotchContent =
   | { readonly kind: 'idle'; readonly meeting: Meeting }
   | { readonly kind: 'meeting'; readonly meeting: Meeting; readonly timer: MeetingTimer }
-  | { readonly kind: 'focus'; readonly title: string; readonly seconds: number; readonly estimateMinutes: number }
 
-export type StepId = 'idle' | 'countdown' | 'card' | 'join' | 'focus'
+export type StepId = 'idle' | 'countdown' | 'card' | 'join'
 export type Cursor = 'hidden' | 'approach' | 'notch' | 'join'
 /** Hands-on scenarios. `skipped` is reached only through Skip, never from a chip. */
-export type Scenario = 'idle' | 'countdown' | 'starting' | 'focus' | 'skipped'
+export type Scenario = 'idle' | 'countdown' | 'starting' | 'skipped'
 
 export interface DemoState {
   /** The loop step, or null while the visitor is in control. */
@@ -55,5 +54,3 @@ export const LATER_TODAY: readonly Meeting[] = [
   NEXT_MEETING,
   { title: 'Hiring sync', start: '17:15', end: '17:45', service: 'Microsoft Teams', calendar: 'Work' },
 ]
-
-export const FOCUS_TASK = { title: 'Write the brief', estimateMinutes: 30 } as const

@@ -21,12 +21,6 @@ export interface DemoRefs {
   readonly card: HTMLElement
   readonly agenda: HTMLElement
   readonly agendaRows: readonly HTMLElement[]
-  readonly focusRow: HTMLElement
-  readonly focusElapsed: HTMLElement
-  readonly focusTitle: HTMLElement
-  readonly focusProgress: HTMLElement
-  readonly focusNow: HTMLButtonElement
-  readonly openPlanner: HTMLButtonElement
   readonly rowJoins: readonly HTMLButtonElement[]
   readonly eyebrow: HTMLElement
   readonly hero: HTMLElement
@@ -66,12 +60,6 @@ export function collectRefs(root: HTMLElement): DemoRefs {
     card: need(root, '[data-card]'),
     agenda: need(root, '[data-agenda]'),
     agendaRows: [...root.querySelectorAll<HTMLElement>('[data-agenda-row]')],
-    focusRow: need(root, '[data-focus-row]'),
-    focusElapsed: need(root, '[data-focus-elapsed]'),
-    focusTitle: need(root, '[data-focus-title]'),
-    focusProgress: need(root, '[data-focus-progress]'),
-    focusNow: need(root, '[data-focus-now]'),
-    openPlanner: need(root, '[data-open-planner]'),
     rowJoins: [...root.querySelectorAll<HTMLButtonElement>('[data-row-join]')],
     eyebrow: need(root, '[data-eyebrow]'),
     hero: need(root, '[data-hero]'),
@@ -135,14 +123,6 @@ export function render(refs: DemoRefs, state: DemoState, context: RenderContext)
 
   if (agenda) {
     refs.agendaRows.forEach((row, index) => { row.hidden = index < agenda.firstRow })
-    refs.focusRow.hidden = agenda.focus === null
-    refs.focusNow.hidden = !agenda.focusNow
-    if (agenda.focus) {
-      setText(refs.focusElapsed, agenda.focus.elapsed)
-      setText(refs.focusTitle, agenda.focus.title)
-      setText(refs.focusProgress, agenda.focus.progress)
-      refs.focusRow.dataset.over = String(agenda.focus.over)
-    }
   }
 
   if (content.kind === 'meeting') {

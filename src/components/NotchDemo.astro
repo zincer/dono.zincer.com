@@ -34,7 +34,6 @@ const ring = RING_CIRCUMFERENCE.toFixed(2)
           <span class="compact" aria-hidden="true">
             <span class="wing lead">
               <span class="dot"></span>
-              <svg class="glyph" viewBox="0 0 8 8"><path d="M1 .5 7.5 4 1 7.5z"></path></svg>
               <span class="lead-text" data-lead-text>{DESIGN_REVIEW.start}</span>
             </span>
             <span class="cutout"></span>
@@ -80,16 +79,6 @@ const ring = RING_CIRCUMFERENCE.toFixed(2)
               </li>
             ))}
           </ul>
-          <div class="focus-row" data-focus-row hidden>
-            <span class="focus-elapsed" data-focus-elapsed></span>
-            <span class="focus-dot" aria-hidden="true"></span>
-            <span class="focus-title" data-focus-title></span>
-            <span class="focus-progress" data-focus-progress></span>
-          </div>
-          <div class="agenda-foot">
-            <button type="button" class="foot-btn" data-focus-now>Focus now</button>
-            <button type="button" class="foot-btn" data-open-planner>Open planner</button>
-          </div>
         </div>
       </div>
 
@@ -156,10 +145,9 @@ const ring = RING_CIRCUMFERENCE.toFixed(2)
   .lead { gap: 4px; padding-left: 6px; }
   .demo[data-lead='timer'] .lead { padding-left: 12px; }
   .dot { display: none; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none; }
-  .glyph { display: none; width: 7px; height: 7px; fill: currentColor; flex: none; }
-  .demo[data-lead='dot'] .dot, .demo[data-lead='focus'] .glyph { display: block; }
+  .demo[data-lead='dot'] .dot { display: block; }
   .demo:not([data-lead='dot']) .lead-text { font-variant-numeric: tabular-nums; }
-  .demo[data-tone='upcoming'] .lead, .demo[data-tone='upcoming'] .hero, .demo[data-tone='over'] .lead { color: var(--timer-upcoming); }
+  .demo[data-tone='upcoming'] .lead, .demo[data-tone='upcoming'] .hero { color: var(--timer-upcoming); }
   .demo[data-tone='imminent'] .lead, .demo[data-tone='imminent'] .hero { color: var(--timer-imminent); }
   .demo[data-tone='started'] .lead, .demo[data-tone='started'] .hero { color: var(--timer-started); }
   .trail { justify-content: flex-start; padding-right: 10px; }
@@ -178,7 +166,7 @@ const ring = RING_CIRCUMFERENCE.toFixed(2)
   .demo[data-expanded='true'][data-card-kind='meeting'] .card,
   .demo[data-expanded='true'][data-card-kind='agenda'] .agenda { opacity: 1; pointer-events: auto; }
 
-  /* The app's AgendaContent: today's meetings, the focus row, Focus now / Open planner. */
+  /* The app's AgendaContent in 1.0: today's meetings with Join. */
   .agenda { display: flex; flex-direction: column; font-size: 11.5px; }
   .agenda [hidden] { display: none; }
   .agenda-rows { list-style: none; padding: 0; margin-top: 8px; display: grid; gap: 3px; }
@@ -189,14 +177,6 @@ const ring = RING_CIRCUMFERENCE.toFixed(2)
   .join-mini { width: 22px; height: 22px; padding: 0; border: 0; border-radius: 50%; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; cursor: pointer; transition: transform var(--dur-hover) ease-out; }
   .join-mini svg { width: 11px; height: 8px; fill: currentColor; }
   .join-mini:hover { transform: scale(1.04); }
-  .focus-row { margin-top: 3px; height: 22px; display: flex; align-items: center; gap: 8px; }
-  .focus-elapsed { width: 40px; font-variant-numeric: tabular-nums; }
-  .focus-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex: none; }
-  .focus-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .focus-progress { color: var(--cream-3); font-variant-numeric: tabular-nums; }
-  .focus-row[data-over='true'] .focus-elapsed, .focus-row[data-over='true'] .focus-progress { color: var(--timer-upcoming); }
-  .agenda-foot { margin-top: auto; padding-top: 6px; border-top: 0.5px solid var(--hairline); display: flex; justify-content: flex-end; gap: 8px; }
-  .foot-btn { height: 20px; padding: 0 10px; border: 0; border-radius: 999px; background: var(--surface-control); font-size: 11px; font-weight: 600; cursor: pointer; }
   .card-row { display: flex; align-items: center; gap: 10px; }
   .ring { width: 34px; height: 34px; flex: none; rotate: -90deg; }
   .ring-track, .ring-fill { fill: none; stroke-width: 3.5; }

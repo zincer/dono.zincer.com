@@ -1,8 +1,6 @@
 import { describe as group, expect, it } from 'vitest'
 import {
   describe,
-  focusElapsed,
-  isOverEstimate,
   isPulsing,
   leadView,
   ringFraction,
@@ -18,7 +16,6 @@ const meeting = (timer: ReturnType<typeof upcoming> | ReturnType<typeof inProgre
   meeting: DESIGN_REVIEW,
   timer,
 })
-const focus = (seconds: number): NotchContent => ({ kind: 'focus', title: 'Write the brief', seconds, estimateMinutes: 30 })
 
 group('timerText', () => {
   it('uses -MM:SS before the start and +MM:SS after it', () => {
@@ -65,24 +62,6 @@ group('ringFraction', () => {
   })
 })
 
-group('focusElapsed', () => {
-  it('uses M:SS under an hour and H:MM:SS from an hour', () => {
-    expect(focusElapsed(0)).toBe('0:00')
-    expect(focusElapsed(754)).toBe('12:34')
-    expect(focusElapsed(1800)).toBe('30:00')
-    expect(focusElapsed(3723)).toBe('1:02:03')
-    expect(focusElapsed(-5)).toBe('0:00')
-  })
-})
-
-group('isOverEstimate', () => {
-  it('is over only past the estimate, never at it', () => {
-    expect(isOverEstimate(1800, 30)).toBe(false)
-    expect(isOverEstimate(1801, 30)).toBe(true)
-    expect(isOverEstimate(5000, 0)).toBe(false)
-  })
-})
-
 group('describe', () => {
   it('reads the idle notch', () => {
     expect(describe({ kind: 'idle', meeting: DESIGN_REVIEW })).toBe('Next: Design review at 14:00')
@@ -96,10 +75,6 @@ group('describe', () => {
     expect(describe(meeting(inProgress(60)))).toBe('Design review, started 1 minute ago')
     expect(describe(meeting(inProgress(125)))).toBe('Design review, started 2 minutes ago')
   })
-  it('reads focus progress against the estimate', () => {
-    expect(describe(focus(754))).toBe('Focusing on Write the brief, 13 minutes of 30')
-    expect(describe(focus(1801))).toBe('Focusing on Write the brief, 31 minutes of 30, over your estimate')
-  })
 })
 
 group('leadView', () => {
@@ -112,11 +87,5 @@ group('leadView', () => {
     expect(leadView(meeting(upcoming(45)))).toEqual({
       kind: 'timer', tone: 'imminent', text: '-00:45', trail: 'Design review', pulsing: true,
     })
-  })
-  it('shows the focus timer, amber when over', () => {
-    expect(leadView(focus(1801))).toEqual({
-      kind: 'focus', tone: 'over', text: '30:01', trail: 'Write the brief', pulsing: false,
-    })
-    expect(leadView(focus(1800)).tone).toBe('none')
   })
 })

@@ -90,11 +90,11 @@ export function startDemo(root: HTMLElement): () => void {
     draw()
   }
 
-  const chooseScenario = (scenario: Scenario, expanded = false): void => {
+  const chooseScenario = (scenario: Scenario): void => {
     window.clearTimeout(resumeTimer)
     const loopMs = mode.kind === 'loop' ? mode.elapsedMs : mode.loopMs
     const chip = scenario === 'skipped' ? null : scenario
-    mode = { kind: 'hands', scenario, startSeconds: DEFAULT_START_SECONDS[scenario], elapsedMs: 0, expanded, loopMs, chip }
+    mode = { kind: 'hands', scenario, startSeconds: DEFAULT_START_SECONDS[scenario], elapsedMs: 0, expanded: false, loopMs, chip }
     draw()
   }
 
@@ -165,8 +165,6 @@ export function startDemo(root: HTMLElement): () => void {
     setExpanded(false)
   }, options)
 
-  refs.focusNow.addEventListener('click', () => chooseScenario('focus', true), options)
-  refs.openPlanner.addEventListener('click', () => showToast('Would open the planner'), options)
   refs.rowJoins.forEach((button) => button.addEventListener('click', () => {
     showToast(`Would open ${button.dataset.rowJoin ?? 'the meeting'}`)
   }, options))

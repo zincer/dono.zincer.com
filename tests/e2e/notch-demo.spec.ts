@@ -47,16 +47,17 @@ test.describe('on a desktop with a mouse', () => {
   test('a chip switches the scenario', async ({ page }) => {
     await page.goto('/')
     const demo = page.locator('[data-demo]')
-    await demo.locator('[data-scenario="focus"]').click()
-    await expect(demo).toHaveAttribute('data-lead', 'focus')
-    await expect(demo.locator('[data-trail]')).toHaveText('Write the brief')
+    await demo.locator('[data-scenario="starting"]').click()
+    await expect(demo).toHaveAttribute('data-lead', 'timer')
+    await expect(demo).toHaveAttribute('data-tone', 'started')
+    await expect(demo.locator('[data-lead-text]')).toHaveText(/^\+00:\d\d$/)
     await expect(demo.locator('[data-caption]')).toHaveText("You're driving. Try Skip and Join.")
   })
 
   test('the loop resumes four seconds after the pointer leaves', async ({ page }) => {
     await page.goto('/')
     const demo = page.locator('[data-demo]')
-    await demo.locator('[data-scenario="focus"]').click()
+    await demo.locator('[data-scenario="countdown"]').click()
     await expect(demo).toHaveAttribute('data-mode', 'hands')
     await page.mouse.move(2, 2)
     await expect(demo).toHaveAttribute('data-mode', 'hands', { timeout: 1000 })
@@ -66,9 +67,9 @@ test.describe('on a desktop with a mouse', () => {
   test('a step dot jumps the loop to that step', async ({ page }) => {
     await page.goto('/')
     const demo = page.locator('[data-demo]')
-    await demo.locator('[data-dot="focus"]').click()
-    await expect(demo).toHaveAttribute('data-step', 'focus')
-    await expect(demo.locator('[data-dot="focus"]')).toHaveAttribute('aria-current', 'step')
+    await demo.locator('[data-dot="join"]').click()
+    await expect(demo).toHaveAttribute('data-step', 'join')
+    await expect(demo.locator('[data-dot="join"]')).toHaveAttribute('aria-current', 'step')
   })
 
   test('works from the keyboard', async ({ page }) => {

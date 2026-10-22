@@ -1,6 +1,5 @@
 import {
   DESIGN_REVIEW,
-  FOCUS_TASK,
   NEXT_MEETING,
   type Cursor,
   type DemoState,
@@ -22,10 +21,9 @@ export const STEPS: readonly Step[] = [
   { id: 'countdown', startMs: 3000, endMs: 8000, label: 'Countdown', caption: 'A countdown, not a pop-up.' },
   { id: 'card', startMs: 8000, endMs: 14000, label: 'Card', caption: 'Everything you need, one hover away.' },
   { id: 'join', startMs: 14000, endMs: 17000, label: 'Join', caption: 'One click into Zoom, Meet or Teams.' },
-  { id: 'focus', startMs: 17000, endMs: 24000, label: 'Focus', caption: 'Then back to the work that matters.' },
 ]
 
-export const LOOP_MS = 24_000
+export const LOOP_MS = 17_000
 export const MAX_FRAME_MS = 100
 /** AkeDesign.Motion.expandDelay / collapseDelay. */
 export const OPEN_DELAY_MS = 150
@@ -35,24 +33,22 @@ export const RESUME_AFTER_MS = 4000
 const CURSOR_ON_NOTCH_MS = 8600
 const JOIN_PRESS_MS = 13_600
 const CURSOR_LEAVES_MS = 14_600
-const REDUCED_MOTION_MS: Record<StepId, number> = { idle: 1500, countdown: 4000, card: 11000, join: 16000, focus: 23000 }
+const REDUCED_MOTION_MS: Record<StepId, number> = { idle: 1500, countdown: 4000, card: 11000, join: 16000 }
 
 export const CHIP_SCENARIOS: readonly { readonly id: Scenario; readonly label: string }[] = [
   { id: 'idle', label: 'Idle' },
   { id: 'countdown', label: 'Countdown' },
   { id: 'starting', label: 'Starting now' },
-  { id: 'focus', label: 'Focus' },
 ]
 
 export const DEFAULT_START_SECONDS: Record<Scenario, number> = {
   idle: 0,
   countdown: 252,
   starting: 0,
-  focus: 1780,
   skipped: 0,
 }
 
-const SCENARIOS: readonly Scenario[] = ['idle', 'countdown', 'starting', 'focus', 'skipped']
+const SCENARIOS: readonly Scenario[] = ['idle', 'countdown', 'starting', 'skipped']
 
 const wrap = (ms: number): number => ((ms % LOOP_MS) + LOOP_MS) % LOOP_MS
 const progress = (t: number, step: Step): number => (t - step.startMs) / (step.endMs - step.startMs)
@@ -62,9 +58,6 @@ const upcoming = (seconds: number): NotchContent => ({
 })
 const inProgress = (seconds: number): NotchContent => ({
   kind: 'meeting', meeting: DESIGN_REVIEW, timer: { phase: 'inProgress', seconds },
-})
-const focusing = (seconds: number): NotchContent => ({
-  kind: 'focus', title: FOCUS_TASK.title, seconds, estimateMinutes: FOCUS_TASK.estimateMinutes,
 })
 
 export function stepAt(ms: number): Step {
@@ -106,8 +99,6 @@ export function stateAt(ms: number, reducedMotion = false): DemoState {
         content: inProgress(Math.min(4, Math.floor((t - step.startMs) / 600))),
         cursor: reducedMotion || t >= CURSOR_LEAVES_MS ? 'hidden' : 'join',
       }
-    case 'focus':
-      return { ...base, content: focusing(1780 + Math.floor(p * 82)) }
   }
 }
 
@@ -125,8 +116,6 @@ export function takeOver(content: NotchContent): { readonly scenario: Scenario; 
   switch (content.kind) {
     case 'idle':
       return { scenario: 'idle', startSeconds: 0 }
-    case 'focus':
-      return { scenario: 'focus', startSeconds: content.seconds }
     case 'meeting':
       return content.timer.phase === 'upcoming'
         ? { scenario: 'countdown', startSeconds: content.timer.seconds }
@@ -152,8 +141,6 @@ export function scenarioContent(
     }
     case 'starting':
       return inProgress(startSeconds + s)
-    case 'focus':
-      return focusing(startSeconds + s)
   }
 }
 

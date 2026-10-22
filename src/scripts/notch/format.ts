@@ -9,10 +9,10 @@ export const RING_LEAD_SECONDS = 600
 export const RING_AUTO_HIDE_SECONDS = 600
 
 export type TimerTone = 'upcoming' | 'imminent' | 'started'
-export type LeadTone = 'none' | TimerTone | 'over'
+export type LeadTone = 'none' | TimerTone
 
 export interface LeadView {
-  readonly kind: 'dot' | 'timer' | 'focus'
+  readonly kind: 'dot' | 'timer'
   readonly tone: LeadTone
   readonly text: string
   readonly trail: string
@@ -46,18 +46,6 @@ export function ringFraction(timer: MeetingTimer): number {
   return clamp01(1 - timer.seconds / span)
 }
 
-export function focusElapsed(seconds: number): string {
-  const total = Math.max(0, Math.floor(seconds))
-  const hours = Math.floor(total / 3600)
-  const minutes = Math.floor((total % 3600) / 60)
-  const rest = total % 60
-  return hours > 0 ? `${hours}:${pad(minutes)}:${pad(rest)}` : `${minutes}:${pad(rest)}`
-}
-
-export function isOverEstimate(seconds: number, estimateMinutes: number): boolean {
-  return estimateMinutes > 0 && seconds > estimateMinutes * 60
-}
-
 /** The notch's accessibility label, phrased like the app's. */
 export function describe(content: NotchContent): string {
   switch (content.kind) {
@@ -69,11 +57,6 @@ export function describe(content: NotchContent): string {
       if (phase === 'upcoming') return `${title}, starts in ${plural(Math.ceil(seconds / 60), 'minute')}`
       const minutes = Math.floor(seconds / 60)
       return minutes === 0 ? `${title}, started just now` : `${title}, started ${plural(minutes, 'minute')} ago`
-    }
-    case 'focus': {
-      const shown = Math.ceil(Math.max(0, content.seconds) / 60)
-      const over = isOverEstimate(content.seconds, content.estimateMinutes) ? ', over your estimate' : ''
-      return `Focusing on ${content.title}, ${plural(shown, 'minute')} of ${content.estimateMinutes}${over}`
     }
   }
 }
@@ -90,14 +73,6 @@ export function leadView(content: NotchContent): LeadView {
         text: timerText(content.timer),
         trail: content.meeting.title,
         pulsing: isPulsing(content.timer),
-      }
-    case 'focus':
-      return {
-        kind: 'focus',
-        tone: isOverEstimate(content.seconds, content.estimateMinutes) ? 'over' : 'none',
-        text: focusElapsed(content.seconds),
-        trail: content.title,
-        pulsing: false,
       }
   }
 }

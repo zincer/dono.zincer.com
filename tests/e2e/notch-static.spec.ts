@@ -12,5 +12,7 @@ test.describe('without JavaScript', () => {
     await expect(demo.locator('[data-trail]')).toHaveText('Design review')
     await expect(demo.locator('[data-toggle]')).toHaveAttribute('aria-label', 'Next: Design review at 14:00')
     await expect(demo.locator('[data-caption]')).toHaveText('Your next meeting, always in view.')
+    await expect(demo).not.toContainText(/Focus now|Open planner|Write the brief/)
+    await expect(demo.locator('[data-dot]')).toHaveCount(4)
   })
 })

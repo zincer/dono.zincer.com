@@ -7,7 +7,7 @@ The landing page for Ake, the notch meeting countdown for the Mac. Astro, static
 | Command | What it does |
 |---|---|
 | `npm run dev` | Dev server on http://localhost:4321 |
-| `npm test` | Vitest unit tests (notch formatting, demo timeline, signup) |
+| `npm test` | Vitest unit tests (notch formatting, demo timeline, signup, call-to-action config) |
 | `npm run check` | `astro check` type check |
 | `npm run test:e2e` | Builds, serves on 127.0.0.1:4174, runs Playwright |
 | `mise run test` | All three in order |
